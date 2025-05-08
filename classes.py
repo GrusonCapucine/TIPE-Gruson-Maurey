@@ -27,7 +27,7 @@ class Etoile2D :
         self.__x = x
         self.__y = y
         self.__magn = magn
-        self.__sguide = None
+        self.__sguide = -1
 
     #Accesseurs
     def get_abs (self):
