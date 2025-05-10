@@ -6,7 +6,7 @@ def distance (u1, u2) :
     x2,y2,z2 = u2
     return math.sqrt((x1 - x2)**2 + (y1 - y2)**2 + (z1 - z2)**2)
 
-
+    
 def conv_spher_cart (asc, decl) :
     x = math.cos(asc) * math.cos(decl)
     y = math.sin(asc) * math.cos(decl)
@@ -110,6 +110,6 @@ def calcul_projection_avec_base (catalogue, ref_index) :
 
     return etoiles2D, u, v, w, c0
 
-def calcul_projection (catalogue, ref_index):
+def calcul_projection_3D (catalogue, ref_index):
     etoiles2D, _, _, _, _ = calcul_projection_avec_base (catalogue, ref_index)
     return etoiles2D
