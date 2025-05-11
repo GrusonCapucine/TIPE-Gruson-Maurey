@@ -55,23 +55,31 @@ class Etoile2D :
 
 class DoubleTriangle :
 
-    def __init__(self, a, b, c):
+    def __init__(self, a, b, c, d, e):
         self.__c1 = a
         self.__c2 = b
         self.__c3 = c
+        self.__c4 = d
+        self.__c5 = e
         self.__a1 = None
         self.__a2 = None
         self.__a3 = None
+        self.__a4 = None
+        self.__a5 = None
+        self.__a6 = None
 
     #Accesseurs
     def get_length(self):
-        return (self.__c1, self.__c2, self.__c3)
+        return (self.__c1, self.__c2, self.__c3, self.__c4, self.__c5)
 
     def get_angles(self):
-        return (self.__a1, self.__a2, self.__a3)
+        return (self.__a1, self.__a2, self.__a3, self.__a4, self.__a5, self.__a6)
 
     #Transformateur
-    def new_angles(self, na1, na2, na3):
+    def new_angles(self, na1, na2, na3, na4, na5, na6):
         self.__a1 = na1
         self.__a2 = na2
         self.__a3 = na3
+        self.__a4 = na4
+        self.__a5 = na5
+        self.__a6 = na6
