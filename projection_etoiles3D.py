@@ -6,7 +6,7 @@ def distance (u1, u2) :
     x2,y2,z2 = u2
     return math.sqrt((x1 - x2)**2 + (y1 - y2)**2 + (z1 - z2)**2)
 
-    
+
 def conv_spher_cart (asc, decl) :
     x = math.cos(asc) * math.cos(decl)
     y = math.sin(asc) * math.cos(decl)
@@ -57,9 +57,6 @@ def nouvelle_base (c0, c1):
     v = pdt_vect (w,u)
 
     #Normalisation des vecteurs
-    norme_u = distance (u,(0,0,0))
-    norme_v = distance (v,(0,0,0))
-
     u_norm = normalise(u)
     v_norm = normalise(v)
 

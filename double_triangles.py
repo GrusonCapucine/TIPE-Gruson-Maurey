@@ -1,19 +1,28 @@
 from classes import *
+from projection_etoiles2D import *
 from random import randint
 
+#Choix arbitraire du nombre d'étoiles de référence à modifier selon les résultats des test
+global lamb
+lamb = 10
 
-def random_star (etoiles) :
+
+def random_star (etoiles, idx_ref) :
     i = randint (0, len(etoiles)-1)
+    while (idx_ref[i]) :
+        i = randint (0, len(etoiles)-1)
+    idx_ref[i] = True
     return etoiles[i]
 
 
-def nearest_stars (m0, etoiles):
+def nearest_stars (ref, etoiles):
     assert (len(etoiles) >= 5)
 
     plus_proches = []
+    m0 = (ref.get_abs(), ref.get_ord())
 
     for e in etoiles:
-        if (e==m0) :
+        if (e==ref) :
             continue
 
         x, y = e.get_abs(), e.get_ord()
@@ -36,7 +45,7 @@ def nearest_stars (m0, etoiles):
             if d < dist_max:
                 plus_proches[idx_max] = (d, e)
 
-    return  plus_proches
+    return plus_proches
 
 
 def al_kashi(a, b, c):
@@ -59,7 +68,7 @@ def create_triangle(m0, m1, m2, m3):
     c12 = distance2D(p1, p2)
     c23 = distance2D(p2, p3)
 
-    triangle = DoubleTriangle(c01, c02, c03, c12, c23)
+    triangle = DoubleTriangle(c01, c02, c03, c12, c23, m0)
     a1, a2, a3 = al_kashi(c01, c12, c02)
     a4, a5, a6 = al_kashi(c02, c03, c23)
     triangle.new_angles(a1, a2, a3, a4, a5, a6)
@@ -67,13 +76,12 @@ def create_triangle(m0, m1, m2, m3):
     return triangle
 
 
-def calcul_doubles_triangles(ref, etoiles):
-    triangles = []
-    m0 = (ref.get_abs(), ref.get_ord())
+def calcul_double_vue(ref, etoiles):
+    m0 = ref
 
-    plus_proches = nearest_stars(m0, etoiles)
-    #Tri d'abord sur la distance
-    plus_proches.sort()
+    plus_proches = nearest_stars(ref, etoiles)
+    #Tri sur la distance
+    plus_proches.sort(key = lambda x: x[0])
 
     proches = [e for (_, e) in plus_proches]
 
@@ -83,8 +91,30 @@ def calcul_doubles_triangles(ref, etoiles):
     m4 = proches [3]
 
     #Première vue {m0, m1, m2} et {m0, m2, m3}
-    triangles.append (create_triangle(m0, m1, m2, m3))
+    triangles1 = create_triangle(m0, m1, m2, m3)
     #Deuxième vue {m0, m2, m3} et {m0, m3, m4}
-    triangles.append (create_triangle(m0, m2, m3, m4))
+    triangles2 = create_triangle(m0, m2, m3, m4)
 
-    return triangles
+    return triangles1, triangles2
+
+
+def calcul_doubles_triangles (etoiles, est_guide):
+    #Cas particulier si nb_etoiles<lambda
+    #Ou si le tableau d'étoiles provient du guide
+    if (len(etoiles) < lamb or guide) :
+        nb_ref = len(etoiles)
+    else :
+        nb_ref = lamb
+
+    doubles_triangles = []
+    idx_ref = [False]*len(etoiles)
+
+    for _ in range (nb_ref) :
+        ref = random_star (etoiles, idx_ref)
+
+        t1, t2 = calcul_double_vue(ref, etoiles)
+        doubles_triangles.append (t1)
+        if (not (est_guide)): #Une seule vue pour les étoiles du guide
+            doubles_triangles.append (t2)
+
+    return doubles_triangles
