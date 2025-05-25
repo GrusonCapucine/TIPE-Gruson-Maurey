@@ -101,7 +101,7 @@ def calcul_double_vue(ref, etoiles):
 def calcul_doubles_triangles (etoiles, est_guide):
     #Cas particulier si nb_etoiles<lambda
     #Ou si le tableau d'étoiles provient du guide
-    if (len(etoiles) < lamb or guide) :
+    if (len(etoiles) < lamb or est_guide) :
         nb_ref = len(etoiles)
     else :
         nb_ref = lamb
