@@ -76,6 +76,11 @@ def calcul_projection_avec_base (catalogue, ref_index) :
     u, v = nouvelle_base(c0, c1)
     w = normalise(c0)
 
+    #Etoile de référence
+    proj_ref = Etoile2D(0, 0, ref.get_magn(), None)
+    proj_ref.set_sguide(ref.get_num())
+    etoiles2D.append(proj_ref)
+
     for e in catalogue:
         #Vecteur v_star position de l'étoile (rayon)
         v_star = conv_spher_cart(e.get_asc(), e.get_decl())
@@ -97,13 +102,9 @@ def calcul_projection_avec_base (catalogue, ref_index) :
             y = pdt_scal (d, v)
 
             #Création de l'étoile2D
-            proj = Etoile2D(x, y, e.get_magn())
+            proj = Etoile2D(x, y, e.get_magn(), None)
             proj.set_sguide(e.get_num())
             etoiles2D.append(proj)
-
-    proj_ref = Etoile2D(0, 0, ref.get_magn())
-    proj_ref.set_sguide(ref.get_num())
-    etoiles2D.append(proj_ref)
 
     return etoiles2D, u, v, w, c0
 

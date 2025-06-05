@@ -38,7 +38,7 @@ def calcul_projection_avec_base_2D (etoiles, ref_index):
     u = normalise2D(u)
     v = (-u[1], u[0]) #Vecteur orthogonal
 
-    proj_ref = Etoile2D(0, 0, ref.get_magn())
+    proj_ref = Etoile2D(0, 0, ref.get_magn(), ref.get_idx())
     etoiles_proj.append(proj_ref)
 
     for e in etoiles:
@@ -49,7 +49,7 @@ def calcul_projection_avec_base_2D (etoiles, ref_index):
             x = pdt_scal2D(d, u)
             y = pdt_scal2D(d, v)
 
-            proj = Etoile2D(x, y, e.get_magn())
+            proj = Etoile2D(x, y, e.get_magn(), e.get_idx())
             etoiles_proj.append(proj)
 
     return etoiles_proj, u, v, m0
