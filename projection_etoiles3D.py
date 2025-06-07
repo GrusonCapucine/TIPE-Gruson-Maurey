@@ -88,7 +88,7 @@ def calcul_projection_avec_base (catalogue, ref_index) :
         #Produit scalaire entre v et w
         pdt = pdt_scal (v_star, w)
 
-        if (pdt > 0 and e!=ref) : #Rayon non parallèle ou opposé au plan tangent
+        if (pdt > 0 and e is not ref) : #Rayon non parallèle ou opposé au plan tangent
                                   #Etoile réf à traiter à part
             t = 1 / pdt
             px, py, pz = t*v_star[0], t*v_star[1], t*v_star[2]

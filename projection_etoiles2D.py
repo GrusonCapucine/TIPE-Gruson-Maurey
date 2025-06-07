@@ -1,6 +1,16 @@
 from classes import *
 import math
 
+
+def coord_to_etoile2D (coords) :
+    star_map = []
+    for i in range (len(coords)) :
+        x, y = coords[i]
+        e = Etoile2D(x, y, None, i)
+        star_map.append(e)
+    return star_map
+
+
 def distance2D(u1, u2):
     x1, y1 = u1
     x2, y2 = u2
@@ -38,18 +48,18 @@ def calcul_projection_avec_base_2D (etoiles, ref_index):
     u = normalise2D(u)
     v = (-u[1], u[0]) #Vecteur orthogonal
 
-    proj_ref = Etoile2D(0, 0, ref.get_magn(), ref.get_idx())
+    proj_ref = Etoile2D(0, 0, None, ref.get_idx())
     etoiles_proj.append(proj_ref)
 
     for e in etoiles:
-        if (e!=ref) :
+        if (e is not ref) :
             mx, my = e.get_abs(), e.get_ord()
             dx, dy = mx - m0[0], my - m0[1]
             d = (dx, dy)
             x = pdt_scal2D(d, u)
             y = pdt_scal2D(d, v)
 
-            proj = Etoile2D(x, y, e.get_magn(), e.get_idx())
+            proj = Etoile2D(x, y, None, e.get_idx())
             etoiles_proj.append(proj)
 
     return etoiles_proj, u, v, m0

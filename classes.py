@@ -23,11 +23,11 @@ class Etoile3D :
 
 class Etoile2D :
 
-    def __init__(self, x, y, magn, idx) :
+    def __init__(self, x, y, magn=None, idx=0) :
         self.__x = x
         self.__y = y
-        self.__magn = magn
         self.__sguide = -1
+        self.__magn = magn
         #Pour associer les etoiles2D avant et après changement de base
         self.__idxetoile2D = idx
 
@@ -49,7 +49,7 @@ class Etoile2D :
 
     def new_coord (self, x, y):
         #Création d'une nouvelle étoile dans le nouveau système
-        new_star = Etoile2D(x, y, self.__magn)
+        new_star = Etoile2D(x, y, self.__magn, self.__idxetoile2D)
         new_star.set_sguide(self.__sguide)
         return new_star
 

@@ -106,8 +106,9 @@ def calcul_doubles_triangles (etoiles, est_guide):
     doubles_triangles = []
     idx_ref = [False]*len(etoiles)
 
-    for _ in range (nb_ref) :
-        ref = random_star (etoiles, idx_ref)
+    for i in range (nb_ref) :
+        #ref = random_star (etoiles, idx_ref)
+        ref = etoiles[i]
 
         t1, t2 = calcul_double_vue(ref, etoiles)
         doubles_triangles.append (t1)
