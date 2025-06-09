@@ -57,6 +57,8 @@ class Etoile2D :
     def set_sguide(self, s):
         self.__sguide = s
 
+    def set_idx(self, i) :
+        self.__idxetoile2D = i
 
 class DoubleTriangle :
 

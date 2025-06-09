@@ -7,6 +7,7 @@ def marquage_m0(star_map, guide):
     for m0 in asso.keys():
         xm, ym = m0.get_abs(), m0.get_ord()
         ds = asso[m0]  # Liste des étoiles D du guide avec des triangles proches
+        assert(len(ds) == 2)
 
         best_d0 = None
         best_magn = float('inf')
@@ -16,7 +17,7 @@ def marquage_m0(star_map, guide):
             numd = d0.get_sguide()
 
             # Si les étoiles entrent dans la même "boîte"
-            if abs(xd - xm) <= 0.1 and abs(yd - ym) <= 0.1:
+            if (abs(xd - xm) <= 0.1 and abs(yd - ym) <= 0.1):
                 magn_d0 = d0.get_magn()
 
                 # Comparaison des magnitudes

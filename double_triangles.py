@@ -52,9 +52,9 @@ def nearest_stars (ref, etoiles):
 
 def al_kashi(a, b, c):
     # Formule du cosinus : cos(C) = (a² + b² - c²)/(2ab)
-    A = math.acos((b**2 + c**2 - a**2) / (2 * b * c))
-    B = math.acos((a**2 + c**2 - b**2) / (2 * a * c))
-    C = math.acos((a**2 + b**2 - c**2) / (2 * a * b))
+    A = math.acos(max(-1.0, min(1.0, (b**2+c**2-a**2) / (2*b*c))))
+    B = math.acos(max(-1.0, min(1.0, (a**2+c**2-b**2) / (2*a*c))))
+    C = math.acos(max(-1.0, min(1.0, (a**2+b**2-c**2) / (2*a*b))))
     return A, B, C
 
 

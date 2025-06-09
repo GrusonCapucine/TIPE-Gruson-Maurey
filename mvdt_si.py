@@ -11,24 +11,25 @@ def calcul_vues (photo, catalogue_csv) :
     best_star_map = []
     rmax = -1
 
-    print(len(etoiles2D))
-    print(len(catalogue))
+    #print(len(etoiles2D))
+    #print(len(catalogue))
+
     #Recherche de la meilleure vue
     for i in range (len(etoiles2D)):
-        #star_map = calcul_projection_2D(etoiles2D, i)
+        star_map = calcul_projection_2D(etoiles2D, i)
 
         for j in range (len(catalogue)):
-            print("num boucle :" +str(i) + " " +str(j))
-            star_map = calcul_projection_2D(etoiles2D, i)
+            #print("num boucle :" +str(i) + " " +str(j))
+            #star_map = calcul_projection_2D(etoiles2D, i)
             guide = calcul_projection_3D(catalogue, j)
 
             marquage_m0 (star_map, guide)
-            for m0 in star_map :
-                print(m0.get_idx(), m0.get_sguide())
+            #for m0 in star_map :
+            #    print(m0.get_idx(), m0.get_sguide())
 
             r = resultat_identification(star_map)
-            print ("Res : " +str(r))
-            print ("\n")
+            #print ("Res : " +str(r))
+            #print ("\n")
 
             if (r>rmax) :
                 rmax = r
@@ -42,6 +43,7 @@ def calcul_vues (photo, catalogue_csv) :
     for m0 in best_star_map :
         num_guide = m0.get_sguide()
 
+        #Garder uniquement les étoiles associées au guide
         if (num_guide == -1) :
             continue
 
