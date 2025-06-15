@@ -6,8 +6,12 @@ from classes import *
 #triangle_map -> (score, triangle_guide)
 
 def calcul_sj (star_map, guide):
-    triangles_m0s = calcul_doubles_triangles(star_map, False)
-    triangles_hk = calcul_doubles_triangles(guide, True)
+    try :
+        triangles_m0s = calcul_doubles_triangles(star_map, False)
+        triangles_hk = calcul_doubles_triangles(guide, True)
+    except (ZeroDivisionError) as e:
+        raise ZeroDivisionError
+
     scores = {}
 
     for f1 in triangles_m0s :

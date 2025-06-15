@@ -16,7 +16,7 @@ for m0 in etoiles2D :
     m0.set_idx(i)
     i+=1
 
-"""
+print ("***Test triangles et comparaison***\n")
 guide = calcul_projection_3D(catalogue, 0)
 
 scores = calcul_sj(etoiles2D, guide)
@@ -38,15 +38,8 @@ for m0,d0 in asso.items() :
 
 
 
-marquage_m0 (etoiles2D, guide)
 
-for m0 in etoiles2D :
-    print("Etoile guide de m0 num " + str(m0.get_idx()) + " : " + str(m0.get_sguide()))
-
-r = resultat_identification (etoiles2D)
-print("\nRésultat identification : " +str(r))
-"""
-
+print ("\n***Test boites***\n")
 
 best_star_map = []
 rmax = -1

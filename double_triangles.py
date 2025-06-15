@@ -7,7 +7,7 @@ from random import randint
 global lamb
 lamb = 10
 """
-
+EPSILON = 1e-12
 
 def random_star (etoiles, idx_ref) :
     i = randint (0, len(etoiles)-1)
@@ -24,7 +24,7 @@ def nearest_stars (ref, etoiles):
     m0 = (ref.get_abs(), ref.get_ord())
 
     for e in etoiles:
-        if (e==ref) :
+        if (e is ref) :
             continue
 
         x, y = e.get_abs(), e.get_ord()
@@ -52,6 +52,9 @@ def nearest_stars (ref, etoiles):
 
 def al_kashi(a, b, c):
     # Formule du cosinus : cos(C) = (a² + b² - c²)/(2ab)
+    if (a < EPSILON or b < EPSILON or c<EPSILON):
+        raise ZeroDivisionError
+
     A = math.acos(max(-1.0, min(1.0, (b**2+c**2-a**2) / (2*b*c))))
     B = math.acos(max(-1.0, min(1.0, (a**2+c**2-b**2) / (2*a*c))))
     C = math.acos(max(-1.0, min(1.0, (a**2+b**2-c**2) / (2*a*b))))
@@ -71,8 +74,12 @@ def create_triangle(m0, m1, m2, m3):
     c23 = distance2D(p2, p3)
 
     triangle = DoubleTriangle(c01, c02, c03, c12, c23, m0)
-    a1, a2, a3 = al_kashi(c01, c12, c02)
-    a4, a5, a6 = al_kashi(c02, c03, c23)
+    try :
+        a1, a2, a3 = al_kashi(c01, c12, c02)
+        a4, a5, a6 = al_kashi(c02, c03, c23)
+    except (ZeroDivisionError) as e:
+        raise RuntimeError
+
     triangle.new_angles(a1, a2, a3, a4, a5, a6)
 
     return triangle
@@ -92,10 +99,13 @@ def calcul_double_vue(ref, etoiles):
     m3 = proches[2]
     m4 = proches [3]
 
-    #Première vue {m0, m1, m2} et {m0, m2, m3}
-    triangles1 = create_triangle(m0, m1, m2, m3)
-    #Deuxième vue {m0, m2, m3} et {m0, m3, m4}
-    triangles2 = create_triangle(m0, m2, m3, m4)
+    try :
+        #Première vue {m0, m1, m2} et {m0, m2, m3}
+        triangles1 = create_triangle(m0, m1, m2, m3)
+        #Deuxième vue {m0, m2, m3} et {m0, m3, m4}
+        triangles2 = create_triangle(m0, m2, m3, m4)
+    except RuntimeError as e:
+        raise RuntimeError
 
     return triangles1, triangles2
 
@@ -110,7 +120,11 @@ def calcul_doubles_triangles (etoiles, est_guide):
         #ref = random_star (etoiles, idx_ref)
         ref = etoiles[i]
 
-        t1, t2 = calcul_double_vue(ref, etoiles)
+        try :
+            t1, t2 = calcul_double_vue(ref, etoiles)
+        except RuntimeError as e:
+            raise Exception
+
         doubles_triangles.append (t1)
         if (not (est_guide)): #Une seule vue pour les étoiles du guide
             doubles_triangles.append (t2)

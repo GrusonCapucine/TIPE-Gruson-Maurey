@@ -7,7 +7,7 @@ def detect_stars(image_path, output_path="output_with_stars.png"):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     # Appliquer un seuillage pour isoler les étoiles brillantes
-    _, thresh = cv2.threshold(gray, 75, 255, cv2.THRESH_BINARY)
+    _, thresh = cv2.threshold(gray, 200, 255, cv2.THRESH_BINARY)
 
     # Trouver les contours des zones blanches (les étoiles)
     contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -24,7 +24,7 @@ def detect_stars(image_path, output_path="output_with_stars.png"):
         cy = int(M["m01"] / M["m00"])
         star_coords.append((cx, cy))
 
-    """
+        """
         # Dessiner un cercle rouge autour de l'étoile détectée
         (x, y), radius = cv2.minEnclosingCircle(contour)
         center = (int(x), int(y))
@@ -34,12 +34,11 @@ def detect_stars(image_path, output_path="output_with_stars.png"):
     # Sauvegarder l'image annotée
     cv2.imwrite(output_path, image)
     """
-
     return star_coords
 
 """
 # Exemple d'utilisation
-image_file = "photo.jpg"
+image_file = "./Test_stel/photo.png"
 coords = detect_stars(image_file)
 print("Coordonnées des étoiles détectées :", coords)
 """

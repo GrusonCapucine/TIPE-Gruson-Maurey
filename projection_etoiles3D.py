@@ -1,6 +1,9 @@
 from classes import *
 import math
 
+
+EPSILON = 1e-12
+
 def distance (u1, u2) :
     x1,y1,z1 = u1
     x2,y2,z2 = u2
@@ -29,6 +32,8 @@ def pdt_scal (u, v):
 
 def normalise(u) :
     n = distance (u, (0,0,0))
+    if n < EPSILON:
+        raise ZeroDivisionError
     return tuple (c/n for c in u)
 
 def projection_plus_proche (catalogue, ref, c0):
@@ -57,9 +62,11 @@ def nouvelle_base (c0, c1):
     v = pdt_vect (w,u)
 
     #Normalisation des vecteurs
-    u_norm = normalise(u)
-    v_norm = normalise(v)
-
+    try :
+        u_norm = normalise(u)
+        v_norm = normalise(v)
+    except ZeroDivisionError as e :
+        raise RuntimeError ("Problème création base")
     return u_norm, v_norm
 
 
@@ -72,9 +79,12 @@ def calcul_projection_avec_base (catalogue, ref_index) :
     c0 = conv_spher_cart(ref.get_asc(), ref.get_decl())
 
     #Construction base
-    c1 = projection_plus_proche(catalogue, ref, c0)
-    u, v = nouvelle_base(c0, c1)
-    w = normalise(c0)
+    try :
+        c1 = projection_plus_proche(catalogue, ref, c0)
+        u, v = nouvelle_base(c0, c1)
+        w = normalise(c0)
+    except (ValueError, RuntimeError) as e:
+        raise RuntimeError("Problème base")
 
     #Etoile de référence
     proj_ref = Etoile2D(0, 0, ref.get_magn(), None)
@@ -89,11 +99,15 @@ def calcul_projection_avec_base (catalogue, ref_index) :
         pdt = pdt_scal (v_star, w)
 
         if (pdt > 0 and e is not ref) : #Rayon non parallèle ou opposé au plan tangent
-                                  #Etoile réf à traiter à part
-            t = 1 / pdt
+
+            try:
+                t = 1 / pdt
+            except ZeroDivisionError:
+                continue
+
             px, py, pz = t*v_star[0], t*v_star[1], t*v_star[2]
 
-            #Vecteur d déplacement étoile projétée et référence
+            #Vecteur d déplacement étoile projetée et référence
             dx, dy, dz = px-w[0], py-w[1], pz-w[2]
             d =(dx,dy,dz)
 

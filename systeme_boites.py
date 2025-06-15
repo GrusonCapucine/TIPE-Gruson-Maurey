@@ -1,7 +1,10 @@
 from comparaison_triangles import *
 
 def marquage_m0(star_map, guide):
-    scores = calcul_sj(star_map, guide)
+    try :
+        scores = calcul_sj(star_map, guide)
+    except (ZeroDivisionError) as e:
+        raise ZeroDivisionError
     asso = assos_Ds_de_M(scores)
 
     for m0 in asso.keys():

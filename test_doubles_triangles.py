@@ -8,7 +8,7 @@ etoiles = [
     Etoile2D(7, 3, 4)
 ]
 
-db_triangles = calcul_doubles_triangles(etoiles, false)
+db_triangles = calcul_doubles_triangles(etoiles, False)
 
 for i in range (len(db_triangles)):
     print(str(db_triangles[i].get_ref())+"\n")
